@@ -7,7 +7,20 @@ on:
     branches: [ "main" ]
 
 jobs:
-  test:
+  hro-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Failing the Job
+        run: php artisan serve
+
+      - name: Running Tests
+        run: echo "Tested"      
+  
+  hro-cd:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,4 +28,4 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Running Scripts 
-        run: php artisan serve
+        run: echo "Deployed"
