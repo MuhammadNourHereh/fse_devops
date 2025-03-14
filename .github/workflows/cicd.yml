@@ -25,5 +25,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Running Scripts 
-        run: echo "Deployed"
+      - name: SSH into the server
+        uses: appleboy/ssh-action@v1.0.3
+        with: 
+          host: ${{secret.REMOTE_HOST}}
+          username: ${{secret.REMOTE_USERNAME}}
+          key: ${{secret.SSH_PRIVATE_KEY}} 
+          port: 22
+          script: |
+            cd /var/www/html/project/
+            sudo git pull origin
+            ... 
