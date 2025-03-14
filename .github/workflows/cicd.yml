@@ -21,6 +21,7 @@ jobs:
         run: echo "Tested"      
   
   hro-cd:
+    needs: hro-ci
     runs-on: ubuntu-latest
 
     steps:
