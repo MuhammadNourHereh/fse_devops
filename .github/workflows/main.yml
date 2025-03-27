@@ -5,7 +5,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    
     steps:
+    - name: Debug Secret
+      run: |
+        if [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
+          echo "SSH_PRIVATE_KEY is empty!"
+        else
+          echo "SSH_PRIVATE_KEY is set (hidden in logs)."
+        fi
+          
     - name: upload a simple file
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
