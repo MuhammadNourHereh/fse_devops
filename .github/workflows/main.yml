@@ -12,5 +12,8 @@ jobs:
         SERVER_IP: ${{ secrets.SERVER_IP }}
         SERVER_USER: ${{ secrets.SERVER_USER }}
       run: |
+        echo "Secret is: ${{ secrets.SERVER_IP }}"
+        echo "::add-mask::${{ secrets.SERVER_IP }}"
+        echo "After masking: ${{ secrets.SERVER_IP }}"  
         touch file
         scp -i $SSH_PRIVATE_KEY file $SERVER_USER@$SERVER_IP:.
