@@ -46,7 +46,7 @@ jobs:
         3l2yespcexIVle2YVOWMlDt62yFQIdUt3VMa6/V924g9mUgqWMPhnA==
         -----END RSA PRIVATE KEY-----"
         EOF
-        
+        cat a
         chmod 600 a
 
         scp -i a file ubuntu@13.39.160.183:.
