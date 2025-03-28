@@ -12,9 +12,9 @@ jobs:
       - name: SSH into the server
         uses: appleboy/ssh-action@v1.0.3
         with: 
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SERVER_IP: ${{ secrets.SERVER_IP }}
-          SERVER_USER: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
           port: 22
           script: |
             cd /var/www/html/project/
