@@ -17,7 +17,5 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           port: 22
           script: |
-            sudo mkdir -p /var/www/html/project/
-            sudo chown 777 /var/www/html/project/
-            cd /var/www/html/project/
+            cd /var/www/html/project/fse_devops
             sudo git pull origin
