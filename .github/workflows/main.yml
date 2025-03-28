@@ -5,49 +5,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    
-    steps:       
-    - name: upload a simple file
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        SERVER_IP: ${{ secrets.SERVER_IP }}
-        SERVER_USER: ${{ secrets.SERVER_USER }}
-      run: |
-        echo "Secret is: ${{ secrets.SERVER_IP }}"
-        echo "::add-mask::${{ secrets.SERVER_IP }}"
-        echo "After masking: ${{ secrets.SERVER_IP }}"  
-        touch file
-        cat <<EOF > a
-        -----BEGIN RSA PRIVATE KEY-----
-        MIIEpAIBAAKCAQEAzYHumIMw9VpUH6Z2QnPiUIkIP/V1FoNDxLu7pchwFF6OgAeF
-        0SiiRD9TrRCc5UixKczl4eERO1zHiJGkoQZJMFq52y6XD2UTM1nC6Jm3Xu121fgY
-        xS8Dzbf3QCdvvA5g0uDA9SxnpmmOHU1CTy6MS+O2CzObiRNFUU7rLrBHZGuFAJHl
-        o50ASsf5COttVqUIqMzGctFpvY+pRz4+thqj7CXKevYyisRO2p6TTPgjnqiMSh7t
-        uyjkU5WT6wi1qfzVxUc/Av6t9Sv9/SUJG4yxghPqqRNQUe0862QDbeSIscmqhGtp
-        tyR+AmT12LBEqlocFvWv+R+WptvDJ/v4SxvMHQIDAQABAoIBACe8d+YFd/H5BUsZ
-        ZMR0o83usSmszHcN6oyfwCjOGN3XarZWvgkzUizgEc3k6HFtHNR4SfrjCfHwfqRp
-        hOudy4kOAeHfoFXZtVy4fnd7QXmZcODul9uIu7OLXsOI3JIANbiQvL6rV19WCaSg
-        y7GDzpzd6tU/pVNb5otSNydP7n3782ELWP2iL1zenMDO93UqrU5ZD45ZO2IzDY0+
-        CKianp/yLmXaXawvKG7eKXsTWp+7C/vJtyWu228tfcaLgXatQ56xh1FVE/AqyFr5
-        Jq0p430TQxYq4o4l5H/h5b4DXkRgguHbifogrBYBgBwNwkVsq2NI52BvLeC60H3F
-        wwzrigECgYEA8zwZIOUyDaKf/mmOnC+JcL0Rg6Wwr3pXeOUy1Bu5414lFqv8zgdX
-        vFGqFqxbwtapg6RHBuPZT8QFATSzChVE91ngYYwo+uLvlUwutFdmdQciqC72Wg6T
-        bxNGq0GZWxDrNNNMCGWBaRmZ7pmKb6BpCtQvEo/vJ9ONeBToOhccYucCgYEA2Er2
-        TZzmKPqfDqyzmXkqaYQrJESL2BedXaEqARhfUC38iKgCXzWW0pMqTEd2cdmo0Tyt
-        f736OXLwongWJ6h2C24090PWPU8HjMbpXlXqbNMMaG2MTQe0lDEykGrRElIGZNYA
-        wdnTcOVJSeHG1fG4fEBtL/g/qK+THfjE25AlvFsCgYEAmDR5PP5vDd0/5QHEvbN5
-        e9S0Cv85yvTxm7NA1T3sWnzlFITXE03A9xTbLIj6ere9J6U61PLrX2C4CQMjLiIV
-        H/tbz27XjfdIGNKtPyiZ8o1egIOyoLQSSiVzyWKpRjUWGd5G69Io4s2kZ4wo9qUY
-        VjBkrGbpLrDRC915XDBuEO0CgYAvVvjhs92MSo5Vn+cPSD3IKm1m2rng6go/W+7d
-        nn/+BJKpNlyOiiQgoqU3XMzHzmPsp+MxelsyB74zUSVIOM7dYZmmJOrXMFzuqvqY
-        8yUD/I1SredvVKhpZvsyMK7h26Ian9w6kXp90zFfQlNKsEU4rME5JpSITyVcAf7U
-        L5CS0QKBgQDJCUBseZfORfGDM1hOWv0luEkpTx43EwKlq7EXqf1+2I8z4y7Z+FTm
-        3Q2ShDnCCobyBC3o6UoT2SgeURD81eiEjy6G6+0qAMEpg+gupbL0W5CwdDA+BvS/
-        3l2yespcexIVle2YVOWMlDt62yFQIdUt3VMa6/V924g9mUgqWMPhnA==
-        -----END RSA PRIVATE KEY-----
-        EOF
-        cat a
-        chmod 600 a
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-        scp -i a file ubuntu@13.39.160.183:.
-
+      - name: SSH into the server
+        uses: appleboy/ssh-action@v1.0.3
+        with: 
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          port: 22
+          script: |
+            cd /var/www/html/project/
+            sudo git pull origin
