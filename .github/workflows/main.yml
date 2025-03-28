@@ -17,7 +17,8 @@ jobs:
         echo "::add-mask::${{ secrets.SERVER_IP }}"
         echo "After masking: ${{ secrets.SERVER_IP }}"  
         touch file
-        cat  echo "-----BEGIN RSA PRIVATE KEY-----
+        cat <<EOF > a
+        "-----BEGIN RSA PRIVATE KEY-----
         MIIEpAIBAAKCAQEAzYHumIMw9VpUH6Z2QnPiUIkIP/V1FoNDxLu7pchwFF6OgAeF
         0SiiRD9TrRCc5UixKczl4eERO1zHiJGkoQZJMFq52y6XD2UTM1nC6Jm3Xu121fgY
         xS8Dzbf3QCdvvA5g0uDA9SxnpmmOHU1CTy6MS+O2CzObiRNFUU7rLrBHZGuFAJHl
@@ -43,7 +44,10 @@ jobs:
         L5CS0QKBgQDJCUBseZfORfGDM1hOWv0luEkpTx43EwKlq7EXqf1+2I8z4y7Z+FTm
         3Q2ShDnCCobyBC3o6UoT2SgeURD81eiEjy6G6+0qAMEpg+gupbL0W5CwdDA+BvS/
         3l2yespcexIVle2YVOWMlDt62yFQIdUt3VMa6/V924g9mUgqWMPhnA==
-        -----END RSA PRIVATE KEY-----" > a
+        -----END RSA PRIVATE KEY-----"
+        EOF
+        
+        chmod 600 a
 
         scp -i a file ubuntu@13.39.160.183:.
 
